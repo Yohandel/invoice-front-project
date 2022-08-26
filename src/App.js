@@ -6,16 +6,16 @@ import { Main } from './components/Main/Main';
 
 function App() {
   return (
-    <Container className='container'>
+    <>
       <Row>
-        <Col>
+        <Col md={2}>
           <Sidebar className='sidebar'></Sidebar>
         </Col>
-        <Col>
+        <Col md={10}>
           <Main></Main>
         </Col>
       </Row>
-    </Container>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@
   position: fixed;
 }
 
-.sidebar .header{
+.sidebarHeader {
   padding: 24px;
   text-transform: uppercase;
   font-weight: bold;
@@ -11,4 +11,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: noWrap;
+
+}
+
+.sidebarHeader a {
+  text-decoration: none;
+  color: #adadad;
+}
+
+.sidebarHeader :hover {
+  color: #fff;
 }

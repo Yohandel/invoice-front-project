@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
 import { Sidebar } from './components/sidebar/sidebar';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Main } from './components/Main/Main';
 
 function App() {
   return (
-    <>
-    <div className='row'>
-      <div className='col-md-6'>
-      <Sidebar className='sidebar'></Sidebar>
-      </div>
-      <div className='col-md-6'>
-      <div className="App">
-      </div>
-      </div>
-    </div>
-
-      
-    </>
+    <Container className='container'>
+      <Row>
+        <Col>
+          <Sidebar className='sidebar'></Sidebar>
+        </Col>
+        <Col>
+          <Main></Main>
+        </Col>
+      </Row>
+    </Container>
   );
 }
+
+
 
 export default App;

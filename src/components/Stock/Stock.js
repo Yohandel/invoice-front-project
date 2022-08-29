@@ -12,7 +12,7 @@ export const Stock = () => {
     const [stockList, setStock] = useState([])
     const [addModalShow, setAddShow] = useState(false)
     const [actionModalShow, setActionShow] = useState(false)
-    const [actionTitle, setActionTitle] = useState(false)
+    const [actionType, setActionType] = useState(false)
 
     useEffect(() => {
         axios.get('http://localhost:3001/inStock')
@@ -31,9 +31,9 @@ export const Stock = () => {
         setAddShow(opened)
     }
 
-    const handleActionShowToggle = (opened, title) => {
+    const handleActionShowToggle = (opened, type) => {
         setActionShow(opened)
-        setActionTitle(title)
+        setActionType(type)
     }
 
     return (
@@ -61,10 +61,10 @@ export const Stock = () => {
                                         <td>{stock?.product?.description}</td>
                                         <td>{stock?.quantity}</td>
                                         <td className="d-flex justify-content-center" >
-                                            <Button onClick={()=> handleActionShowToggle(true, 'Ver')} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-info">
+                                            <Button onClick={()=> handleActionShowToggle(true, 1)} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-info">
                                                 <FontAwesomeIcon icon={faEye} />
                                             </Button>
-                                            <Button onClick={()=> handleActionShowToggle(true, 'Editar')} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-warning">
+                                            <Button onClick={()=> handleActionShowToggle(true, 2)} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-warning">
                                                 <FontAwesomeIcon icon={faPencil} />
                                             </Button>
                                             <Button style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-danger">
@@ -80,7 +80,7 @@ export const Stock = () => {
             </Card>
 
             <AddStockModal opened={addModalShow} close={handleAddShowToggle} />
-            <ActionsModal opened={actionModalShow} close={handleActionShowToggle} title={actionTitle}/>
+            <ActionsModal opened={actionModalShow} close={handleActionShowToggle} type={actionType}/>
         </>
     )
 }

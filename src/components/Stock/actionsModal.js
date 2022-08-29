@@ -39,13 +39,13 @@ export const ActionsModal = (props) => {
         <>
             <Modal show={props.opened} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{props.title} stock</Modal.Title>
+                    <Modal.Title>{props.type == 1? 'Ver' : 'Editar'} stock</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Producto</Form.Label>
-                            <Form.Select aria-label="Default select example" onChange={(e) => setProductiD(e.target.value)}>
+                            <Form.Select disabled={props.type == 1} aria-label="Default select example" onChange={(e) => setProductiD(e.target.value)}>
                                 <option value={null} defaultValue>Seleccionar</option>
                                 {products.map((product, index) => {
                                     return (
@@ -59,7 +59,7 @@ export const ActionsModal = (props) => {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Cantidad</Form.Label>
-                            <Form.Control type="number" placeholder="Cantidad" onChange={(e) => setQuantity(e.target.value)} />
+                            <Form.Control disabled={props.type == 1} type="number" placeholder="Cantidad" onChange={(e) => setQuantity(e.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button, Table } from 'react-bootstrap'
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,15 +13,20 @@ export const Stock = () => {
     const [addModalShow, setAddShow] = useState(false)
     const [actionModalShow, setActionShow] = useState(false)
     const [actionType, setActionType] = useState(false)
+    const [selectedStock, setSelectedStock] = useState(null)
 
-    useEffect(() => {
+    const getStockList = () => {
         axios.get('http://localhost:3001/inStock')
             .then((result) => {
                 setStock(result.data)
             }).catch((err) => {
 
             });
+    }
 
+    useEffect(() => {
+
+        getStockList()
         return () => {
             setStock([])
         }
@@ -29,11 +34,20 @@ export const Stock = () => {
 
     const handleAddShowToggle = (opened) => {
         setAddShow(opened)
+
+        if (!opened) {
+            getStockList()
+        }
     }
 
-    const handleActionShowToggle = (opened, type) => {
+    const handleActionShowToggle = (opened, type, productId) => {
         setActionShow(opened)
         setActionType(type)
+        setSelectedStock(productId)
+
+        if (!opened) {
+            getStockList()
+        }
     }
 
     return (
@@ -50,6 +64,7 @@ export const Stock = () => {
                                 <th>Secuencia</th>
                                 <th>Producto</th>
                                 <th>Cantidad disponible</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -60,15 +75,13 @@ export const Stock = () => {
                                         <td>{stock?._id}</td>
                                         <td>{stock?.product?.description}</td>
                                         <td>{stock?.quantity}</td>
+                                        <td>{stock?.status ? "Activo" : "Inactivo"}</td>
                                         <td className="d-flex justify-content-center" >
-                                            <Button onClick={()=> handleActionShowToggle(true, 1)} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-info">
+                                            <Button onClick={() => handleActionShowToggle(true, 1, stock)} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-info">
                                                 <FontAwesomeIcon icon={faEye} />
                                             </Button>
-                                            <Button onClick={()=> handleActionShowToggle(true, 2)} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-warning">
+                                            <Button onClick={() => handleActionShowToggle(true, 2, stock)} style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-warning">
                                                 <FontAwesomeIcon icon={faPencil} />
-                                            </Button>
-                                            <Button style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-danger">
-                                                <FontAwesomeIcon icon={faTrashCan} />
                                             </Button>
                                         </td>
                                     </tr>
@@ -80,7 +93,7 @@ export const Stock = () => {
             </Card>
 
             <AddStockModal opened={addModalShow} close={handleAddShowToggle} />
-            <ActionsModal opened={actionModalShow} close={handleActionShowToggle} type={actionType}/>
+            <ActionsModal opened={actionModalShow} close={handleActionShowToggle} type={actionType} selectedStock={selectedStock} />
         </>
     )
 }

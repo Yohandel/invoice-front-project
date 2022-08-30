@@ -68,7 +68,7 @@ export const AddStockModal = (props) => {
                         Cancelar
                     </Button>
                     <Button variant="success" className='success' onClick={() => addStock()}>
-                        Save Changes
+                        Guardar
                     </Button>
                 </Modal.Footer>
             </Modal>

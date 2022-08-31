@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button, Table } from 'react-bootstrap'
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,7 +16,6 @@ export const ProductsList = () => {
             }).catch((err) => {
 
             });
-        console.log("Load");
 
         return () => {
             setProducts([])
@@ -47,11 +46,11 @@ export const ProductsList = () => {
 
                             {products.map((product, index) => {
                                 return (
-                                    <tr >
-                                        <td key={product?._id}>{index}</td>
-                                        <td key={product?._id}>{product?.description}</td>
-                                        <td key={product?._id}>{product?.productCode}</td>
-                                        <td key={product?._id}>{product?.status ? "Activo" : "Inactivo"}</td>
+                                    <tr  key={product?._id}>
+                                        <td>{product?._id}</td>
+                                        <td>{product?.description}</td>
+                                        <td>{product?.productCode}</td>
+                                        <td>{product?.status ? "Activo" : "Inactivo"}</td>
                                         <td className="d-flex justify-content-center" >
                                             <Button style={{ marginRight: '1px', border: 'none' }} size={'sm'} variant="outline-info">
                                                 <FontAwesomeIcon icon={faEye} />

@@ -11,7 +11,7 @@ export const AddStockModal = (props) => {
     useEffect(() => {
         axios.get("http://localhost:3001/products")
             .then((result) => {
-                setProducts(result.data)
+                setProducts(result.data.filter((product) => product.status ===true))
             }).catch((err) => {
 
             });

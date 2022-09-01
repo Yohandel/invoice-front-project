@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faPencil, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddModal } from './addModal';
 import { ActionsModal } from './actionsModal';
-import { SweetAlert } from "../Alerts/SweetAlert";
+import { SweetAlert } from "../Shared/Alerts/SweetAlert";
 
 export const ProductsList = () => {
 
@@ -15,14 +15,16 @@ export const ProductsList = () => {
     const [actionModalShow, setActionShow] = useState(false)
     const [actionType, setActionType] = useState(false)
     const [selectedproduct, setSelectedProduct] = useState(null)
+    const [showToast, setshowToast] = useState(false)
 
     const getProducts = () => {
         axios.get("http://localhost:3001/products")
             .then((result) => {
                 setProducts(result.data)
                 console.log(products);
+                setshowToast(true)
             }).catch((err) => {
-
+                sweetAlert.Default('Error', 'Error cargando la lista de productos', 'error')
             });
     }
 

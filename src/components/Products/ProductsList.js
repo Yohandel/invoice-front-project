@@ -6,43 +6,44 @@ import { faEye, faPencil, faTrashCan, faPlus } from '@fortawesome/free-solid-svg
 import { AddModal } from './addModal';
 import { ActionsModal } from './actionsModal';
 import { SweetAlert } from "../Shared/Alerts/SweetAlert";
+import {useSelector, useDispatch} from 'react-redux'
+import {toList } from "../../features/product/productSlice";
 
 export const ProductsList = () => {
 
+
+    const list = useSelector((state)=> state.products.list)
+    const dispatch = useDispatch()
+
     const sweetAlert = new SweetAlert()
-    const [products, setProducts] = useState([])
     const [addModalShow, setAddShow] = useState(false)
     const [actionModalShow, setActionShow] = useState(false)
     const [actionType, setActionType] = useState(false)
     const [selectedproduct, setSelectedProduct] = useState(null)
-    const [showToast, setshowToast] = useState(false)
 
     const getProducts = () => {
         axios.get("http://localhost:3001/products")
             .then((result) => {
-                setProducts(result.data)
-                console.log(products);
-                setshowToast(true)
+                dispatch(toList(result.data))
             }).catch((err) => {
                 sweetAlert.Default('Error', 'Error cargando la lista de productos', 'error')
             });
-    }
-
-
-    useEffect(() => {
-
-        getProducts()
+        }
+        
+        
+        useEffect(() => {
+            getProducts()
         return () => {
-            setProducts([])
+            dispatch(toList([]))
         }
     }, [])
 
     const handleAddShowToggle = (opened) => {
         setAddShow(opened)
 
-        if (!opened) {
-            getProducts()
-        }
+        // if (!opened) {
+        //     getProducts()
+        // }
     }
 
     const handleActionShowToggle = (opened, type, product) => {
@@ -61,7 +62,7 @@ export const ProductsList = () => {
                 axios.delete(`http://localhost:3001/products/${productId}`)
                 .then(res => {
                   sweetAlert.Default('Exito', 'Se ha elminiado el registro satisfactoriamente', 'success')
-                  getProducts()
+                  dispatch(toList(list))
                 })
                 .catch(err => {
                     sweetAlert.Default('Error', 'No se ha podido eliminar el registro', 'error')
@@ -99,7 +100,7 @@ export const ProductsList = () => {
                         </thead>
                         <tbody>
 
-                            {products.map((product, index) => {
+                            {list.map((product, index) => {
                                 return (
                                     <tr key={product?._id}>
                                         <td>{product?._id}</td>

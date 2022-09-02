@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import axios from "axios";
+import {useDispatch } from "react-redux";
+import { add } from '../../features/product/productSlice';
 
 export const AddModal = (props) => {
 
+    const dispatch = useDispatch()
     const handleClose = () => props.close(false)
     const [description, setDescription] = useState(null)
     const [price, setPrice] = useState(null)
@@ -20,6 +23,7 @@ export const AddModal = (props) => {
         axios.post('http://localhost:3001/products', product)
             .then((result) => {
                 console.log(result);
+                dispatch(add(result.data))
                 handleClose()
             }).catch((err) => {
                 console.log(err);

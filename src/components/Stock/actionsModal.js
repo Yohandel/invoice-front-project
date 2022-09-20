@@ -24,7 +24,7 @@ export const ActionsModal = (props) => {
         }
     }, [])
 
-    const addStock = () => {
+    const updateStock = () => {
         const stock = {
             quantity: quantity,
             product: productId
@@ -71,7 +71,7 @@ export const ActionsModal = (props) => {
                         Cancelar
                     </Button>
                     {props.type === 1 ? null :
-                        <Button variant="success" className='success' onClick={() => addStock()}>
+                        <Button variant="success" className='success' onClick={() => updateStock()}>
                             Actualizar
                         </Button>}
                 </Modal.Footer>

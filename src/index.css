@@ -17,3 +17,9 @@ code {
   border-color: #28a745;
 }
 
+.cardHeader {
+  margin: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+

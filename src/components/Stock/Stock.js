@@ -6,10 +6,15 @@ import { faPlus, faEye, faPencil, faTrashCan } from '@fortawesome/free-solid-svg
 import './stock.css'
 import { AddStockModal } from './addStockModal';
 import { ActionsModal } from './actionsModal';
+import { useSelector, useDispatch } from "react-redux";
+import { toList } from "../../features/stock/stockSlice";
 
 export const Stock = () => {
 
-    const [stockList, setStock] = useState([])
+    const stockList = useSelector((state)=> state.stock.stockList)
+    const dispatch = useDispatch()
+
+    // const [stockList, setStock] = useState([])
     const [addModalShow, setAddShow] = useState(false)
     const [actionModalShow, setActionShow] = useState(false)
     const [actionType, setActionType] = useState(false)
@@ -18,7 +23,7 @@ export const Stock = () => {
     const getStockList = () => {
         axios.get('http://localhost:3001/inStock')
             .then((result) => {
-                setStock(result.data)
+                dispatch(toList(result.data))
             }).catch((err) => {
 
             });
@@ -28,16 +33,16 @@ export const Stock = () => {
 
         getStockList()
         return () => {
-            setStock([])
+            dispatch(toList([]))
         }
     }, [])
 
     const handleAddShowToggle = (opened) => {
         setAddShow(opened)
 
-        if (!opened) {
-            getStockList()
-        }
+        // if (!opened) {
+        //     getStockList()
+        // }
     }
 
     const handleActionShowToggle = (opened, type, productId) => {
@@ -45,9 +50,9 @@ export const Stock = () => {
         setActionType(type)
         setSelectedStock(productId)
 
-        if (!opened) {
-            getStockList()
-        }
+        // if (!opened) {
+        //     getStockList()
+        // }
     }
 
     return (

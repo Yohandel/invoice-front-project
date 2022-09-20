@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { add } from "../../features/stock/stockSlice";
 export const AddStockModal = (props) => {
 
+    const dispatch = useDispatch()
     const handleClose = () => props.close(false)
     const [products, setProducts] = useState([])
     const [productId, setProductiD] = useState('')
@@ -11,7 +14,7 @@ export const AddStockModal = (props) => {
     useEffect(() => {
         axios.get("http://localhost:3001/products")
             .then((result) => {
-                setProducts(result.data)
+                setProducts(result.data.filter((product) => product.status === true))
             }).catch((err) => {
 
             });
@@ -28,7 +31,8 @@ export const AddStockModal = (props) => {
         }
         axios.post('http://localhost:3001/addStock', stock)
             .then((result) => {
-                console.log(result);
+                console.log(result.data);
+                dispatch(add(result.data))
                 handleClose()
             }).catch((err) => {
                 console.log(err);
@@ -59,7 +63,7 @@ export const AddStockModal = (props) => {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Cantidad</Form.Label>
-                            <Form.Control type="number" placeholder="Cantidad"  onChange={(e) => setQuantity(e.target.value)} />
+                            <Form.Control type="number" placeholder="Cantidad" onChange={(e) => setQuantity(e.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

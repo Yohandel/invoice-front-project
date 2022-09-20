@@ -19,7 +19,7 @@ export const Sidebar = () => {
                     <MenuItem>Registar compra</MenuItem>
                     <MenuItem>Cuentas por Cobrar</MenuItem>
                     <MenuItem>Registrar Proveedor</MenuItem>
-                </SubMenu>
+                </SubMenu> 
             </Menu>
         </ProSidebar>
     )
